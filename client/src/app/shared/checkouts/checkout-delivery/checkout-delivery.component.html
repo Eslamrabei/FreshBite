@@ -1,0 +1,48 @@
+<div class="text-center mb-4">
+  <h3 class="text-primary fw-bold"><i class="fa fa-truck me-2"></i>Delivery Method</h3>
+  <p class="text-muted">How fast should we deliver your order?</p>
+</div>
+
+<form *ngIf="deliveryForm" [formGroup]="deliveryForm" (ngSubmit)="submitDelivery()">
+
+  <div class="row g-3">
+    @for (method of deliveryMethods; track method.id) {
+      <div class="col-md-6 col-lg-3">
+
+        <input type="radio"
+               class="btn-check"
+               [value]="method.id"
+               id="delivery_{{method.id}}"
+               formControlName="deliveryMethod">
+
+        <label class="delivery-card card h-100 shadow-sm p-3 cursor-pointer"
+               for="delivery_{{method.id}}">
+
+          <div class="card-body text-center d-flex flex-column">
+            <h5 class="fw-bold text-dark">{{ method.shortName }}</h5>
+            <span class="text-muted small mb-3">{{ method.deliveryTime }}</span>
+            <p class="card-text text-muted flex-grow-1 small">{{ method.description }}</p>
+            <h4 class="fw-bold text-primary mt-3">{{ method.price | currency }}</h4>
+          </div>
+
+          <div class="check-icon">
+            <i class="fa fa-check-circle"></i>
+          </div>
+
+        </label>
+      </div>
+    }
+  </div>
+
+  <div class="d-flex justify-content-between mt-5 pt-3 border-top">
+    <button type="button" class="btn btn-outline-secondary rounded-pill px-4" (click)="back.emit()">
+      <i class="fa fa-angle-left me-2"></i> Back
+    </button>
+
+    <button type="submit" class="btn btn-primary rounded-pill px-4 shadow-sm fw-bold"
+            [disabled]="!deliveryForm.valid">
+      Go to Review <i class="fa fa-arrow-right ms-2"></i>
+    </button>
+  </div>
+
+</form>

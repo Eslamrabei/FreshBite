@@ -1,0 +1,57 @@
+<div class="text-center mb-2">
+  <h3 class="text-primary fw-bold"><i class="fa fa-credit-card me-2"></i>Payment Details</h3>
+  <p class="text-muted">Complete your purchase securely via Stripe.</p>
+</div>
+
+<div class="row justify-content-center">
+  <div class="col-lg-8">
+
+    @if (checkoutForm()) {
+      <form [formGroup]="checkoutForm()">
+        <div class="bg-white p-4 rounded-4 shadow-sm" formGroupName="paymentForm">
+
+          <div class="form-floating mb-4">
+            <input type="text" class="form-control" id="nameOnCard" formControlName="nameOnCard" placeholder="Name on Card"
+                   [class.is-invalid]="checkoutForm().get('paymentForm')?.get('nameOnCard')?.touched && checkoutForm().get('paymentForm')?.get('nameOnCard')?.invalid">
+            <label for="nameOnCard">Name on Card</label>
+            <div class="invalid-feedback">Required</div>
+          </div>
+
+          <div class="mb-3">
+              <label class="form-label text-muted small text-uppercase fw-bold">Card Details</label>
+              <div class="stripe-container border rounded-3 p-3">
+                  <ngx-stripe-card
+                      [options]="cardOptions"
+                      [elementsOptions]="elementsOptions">
+                  </ngx-stripe-card>
+              </div>
+          </div>
+
+        </div>
+
+        <div class="d-flex justify-content-between mt-5 pt-3 border-top">
+          <button type="button" class="btn btn-outline-secondary rounded-pill px-4"
+                  [disabled]="loading"
+                  (click)="back.emit()">
+            <i class="fa fa-angle-left me-2"></i> Back
+          </button>
+
+          <button type="button" class="btn btn-success btn-lg rounded-pill px-5 shadow-sm fw-bold"
+                  [disabled]="loading || !checkoutForm().get('paymentForm')?.valid"
+                  (click)="submitOrder()">
+
+            @if (loading) {
+              <span><i class="fa fa-spinner fa-spin me-2"></i> Processing...</span>
+            } @else {
+              <span>
+                Pay {{ (basketService.basketTotal$ | async)?.total | currency }}
+                <i class="fa fa-check-circle ms-2"></i>
+              </span>
+            }
+
+          </button>
+        </div>
+      </form>
+    }
+  </div>
+</div>

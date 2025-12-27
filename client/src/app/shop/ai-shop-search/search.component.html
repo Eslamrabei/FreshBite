@@ -1,0 +1,74 @@
+<button class="ai-fab-btn" (click)="toggleChat()">@if(isOpen()) { ❌ } @else { 🤖 }</button>
+
+@if (isOpen()) {
+<div class="ai-chat-window shadow-lg">
+  <div class="chat-header">
+    <h5 class="m-0">AI Food Assistant 🥗</h5>
+    <small>Ask me about healthy food!</small>
+  </div>
+
+  <div class="chat-body" #chatContainer>
+    @for (msg of messages(); track $index) { @if (msg.type === 'user') {
+    <div class="d-flex justify-content-end mb-3">
+      <div class="user-msg-bubble">
+        {{ msg.text }}
+      </div>
+    </div>
+    } @if (msg.type === 'bot') {
+    <div class="d-flex justify-content-start mb-3 flex-column">
+      @if (msg.text) {
+      <div class="bot-msg-bubble mb-2" [innerHTML]="msg.text"></div>
+      } @if (msg.products) {
+      <div class="bot-products-grid">
+        @for (product of msg.products; track product.id) {
+        <div class="result-card mb-2">
+          <div class="d-flex justify-content-between">
+            <strong>{{ product.name }}</strong>
+            <span class="text-success fw-bold">{{ product.price | currency : 'EGP ' }}</span>
+          </div>
+          <p class="small text-muted mb-1">{{ product.description }}</p>
+          <span
+            class="badge"
+            [ngClass]="{
+              'bg-success': product.score > 0.7,
+              'bg-warning text-dark': product.score <= 0.7
+            }"
+          >
+            Match: {{ product.score | percent : '1.0-0' }}
+          </span>
+        </div>
+        }
+      </div>
+      }
+    </div>
+    } } @if (isLoading()) {
+    <div class="text-muted small ms-2 mb-3">Thinking... 🤔</div>
+    }
+  </div>
+  <div class="suggestions-wrapper">
+
+  @for (chip of (showAllSuggestions() ? suggestions : suggestions.slice(0, 4)); track $index) {
+    <button class="chip-btn" (click)="useSuggestion(chip)">
+      {{ chip }}
+    </button>
+  }
+
+  <button class="more-btn" (click)="toggleSuggestions()">
+    {{ showAllSuggestions() ? 'Less 🔼' : 'More 🔽' }}
+  </button>
+
+</div>
+  <div class="chat-footer">
+    <div class="input-group">
+      <input
+        type="text"
+        class="form-control"
+        placeholder="Type here..."
+        [(ngModel)]="searchTerm"
+        (keyup.enter)="onSearch()"
+      />
+      <button class="btn btn-primary" (click)="onSearch()">🚀</button>
+    </div>
+  </div>
+</div>
+}

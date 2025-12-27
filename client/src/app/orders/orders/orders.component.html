@@ -1,0 +1,60 @@
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-12">
+            <h3 class="mb-4 text-primary fw-bold text-uppercase">
+                <i class="fa fa-history me-2"></i> Order History
+            </h3>
+
+            @if(orders().length > 0) {
+                <div class="table-responsive shadow-sm rounded-4 border">
+                    <table class="table table-hover align-middle mb-0 bg-white">
+                        <thead class="bg-light text-uppercase small text-muted">
+                            <tr>
+                                <th class="py-3 ps-4">Order ID</th>
+                                <th class="py-3">Date</th>
+                                <th class="py-3">Total</th>
+                                <th class="py-3">Status</th>
+                                <th class="py-3 text-end pe-4">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @for (order of orders(); track order.id) {
+                                <tr class="border-bottom">
+                                    <td class="ps-4 fw-bold text-dark">
+                                        #{{order.id.split('-')[0]}}
+                                    </td>
+                                    <td>{{order.orderDate | date: 'mediumDate'}}</td>
+                                    <td class="fw-bold text-primary">{{order.total | currency}}</td>
+                                    <td>
+                                        <span class="badge rounded-pill px-3 py-2 text-uppercase"
+                                            [class.bg-warning]="order.paymentStatus === 'Pending'"
+                                            [class.bg-success]="order.paymentStatus === 'PaymentRecieved'"
+                                            [class.bg-danger]="order.paymentStatus === 'PaymentFailed'">
+                                            {{order.paymentStatus}}
+                                        </span>
+                                    </td>
+                                    <td class="text-end pe-4">
+                                        <button routerLink="/orders/{{order.id}}" class="btn btn-outline-primary btn-sm rounded-pill px-4 fw-bold">
+                                            View Details
+                                        </button>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            } @else {
+                <div class="text-center p-5 bg-white rounded-4 shadow-sm border">
+                    <div class="mb-3 text-muted">
+                        <i class="fa fa-shopping-basket fa-4x"></i>
+                    </div>
+                    <h4 class="fw-bold">No orders yet</h4>
+                    <p class="text-muted">You haven't placed any orders yet.</p>
+                    <button routerLink="/shop" class="btn btn-primary mt-3 rounded-pill px-5 shadow-sm fw-bold">
+                        Start Shopping
+                    </button>
+                </div>
+            }
+        </div>
+    </div>
+</div>

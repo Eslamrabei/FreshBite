@@ -1,0 +1,16 @@
+<div class="checkout-content bg-white p-4 rounded-4 shadow-sm">
+    @switch (currentStep()) {
+        @case (1) {
+            <app-checkout-address [checkoutForm]="checkoutForm" (next)="nextStep()"></app-checkout-address>
+        }
+        @case (2) {
+            <app-checkout-delivery [checkoutForm]="checkoutForm" (next)="nextStep()" (back)="prevStep()"></app-checkout-delivery>
+        }
+        @case (3) {
+            <app-checkout-review (next)="nextStep()" (back)="prevStep()"></app-checkout-review>
+        }
+        @case (4) {
+            <app-checkout-payment [checkoutForm]="checkoutForm" (back)="prevStep()"></app-checkout-payment>
+        }
+    }
+</div>

@@ -1,0 +1,85 @@
+<div class="text-center mb-4">
+  <h3 class="text-primary fw-bold"><i class="fa fa-map-marker me-2"></i>Shipping Address</h3>
+  <p class="text-muted">Where should we send your order?</p>
+</div>
+
+@if (addressForm) {
+  <form [formGroup]="addressForm" (ngSubmit)="saveAddress()">
+
+    <div class="row g-3">
+      <div class="col-md-6">
+        <div class="form-floating">
+          <input type="text" class="form-control" id="firstName" formControlName="firstName" placeholder="First Name"
+            [class.is-invalid]="addressForm.get('firstName')?.touched && addressForm.get('firstName')?.invalid">
+          <label for="firstName">First Name</label>
+          <div class="invalid-feedback">Required</div>
+        </div>
+      </div>
+
+      <div class="col-md-6">
+        <div class="form-floating">
+          <input type="text" class="form-control" id="lastName" formControlName="lastName" placeholder="Last Name"
+            [class.is-invalid]="addressForm.get('lastName')?.touched && addressForm.get('lastName')?.invalid">
+          <label for="lastName">Last Name</label>
+          <div class="invalid-feedback">Required</div>
+        </div>
+      </div>
+
+      <div class="col-12">
+        <div class="form-floating">
+          <input type="text" class="form-control" id="street" formControlName="street" placeholder="Street Address"
+            [class.is-invalid]="addressForm.get('street')?.touched && addressForm.get('street')?.invalid">
+          <label for="street">Street Address</label>
+          <div class="invalid-feedback">Required</div>
+        </div>
+      </div>
+
+      <div class="col-md-6">
+        <div class="form-floating">
+          <input type="text" class="form-control" id="city" formControlName="city" placeholder="City"
+            [class.is-invalid]="addressForm.get('city')?.touched && addressForm.get('city')?.invalid">
+          <label for="city">City</label>
+          <div class="invalid-feedback">Required</div>
+        </div>
+      </div>
+
+      <div class="col-md-6">
+        <div class="form-floating">
+          <input type="text" class="form-control" id="country" formControlName="country" placeholder="Country"
+            [class.is-invalid]="addressForm.get('country')?.touched && addressForm.get('country')?.invalid">
+          <label for="country">Country</label>
+          <div class="invalid-feedback">Required</div>
+        </div>
+      </div>
+
+      <div class="col-md-6">
+        <div class="form-floating">
+          <input type="text" class="form-control" id="state" formControlName="state" placeholder="State"
+            [class.is-invalid]="addressForm.get('state')?.touched && addressForm.get('state')?.invalid">
+          <label for="state">State</label>
+          <div class="invalid-feedback">Required</div>
+        </div>
+      </div>
+
+      <div class="col-md-6">
+        <div class="form-floating">
+          <input type="text" class="form-control" id="zipCode" formControlName="zipCode" placeholder="Zip Code"
+            [class.is-invalid]="addressForm.get('zipCode')?.touched && addressForm.get('zipCode')?.invalid">
+          <label for="zipCode">Zip Code</label>
+          <div class="invalid-feedback">Required</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="d-flex justify-content-between mt-5 pt-3 border-top">
+      <button routerLink="/basket" type="button" class="btn btn-outline-secondary rounded-pill px-4">
+        <i class="fa fa-angle-left me-2"></i> Back to Basket
+      </button>
+
+      <button type="submit" class="btn btn-primary rounded-pill px-4 shadow-sm fw-bold"
+        [disabled]="!addressForm.valid">
+        Go to Delivery <i class="fa fa-arrow-right ms-2"></i>
+      </button>
+    </div>
+  </form>
+}

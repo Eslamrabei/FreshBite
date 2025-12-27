@@ -1,0 +1,44 @@
+$primary-color: #0d6efd;
+$success-color: #198754;
+
+// Reuse the nice form control styles from Address
+.form-control {
+  border: 1px solid #dee2e6;
+  background-color: #f8f9fa;
+  border-radius: 10px;
+  transition: all 0.2s;
+
+  &:focus {
+    background-color: #fff;
+    border-color: $primary-color;
+    box-shadow: 0 0 0 0.25rem rgba($primary-color, 0.15);
+  }
+}
+
+.form-floating > label {
+  color: #6c757d;
+  font-size: 0.9rem;
+}
+
+// Pay Button Animation
+.btn-success {
+  transition: all 0.2s ease;
+  background: linear-gradient(45deg, $success-color, lighten($success-color, 10%));
+  border: none;
+
+  &:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba($success-color, 0.4);
+  }
+}
+
+
+.stripe-container {
+    background-color: #fff;
+    border-color: #ced4da; // Bootstrap default border color
+    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+
+    &:hover {
+        border-color: #86b7fe; // Bootstrap hover color
+    }
+}

@@ -1,0 +1,39 @@
+<div class="d-flex justify-content-center align-items-center min-vh-100 bg-light">
+  <div
+    class="card p-2 border-0 shadow-lg rounded-4"
+    style="width: 300px; background: rgba(255, 255, 255, 0.95)"
+  >
+    <div class="text-center mb-4">
+      <div class="icon-wrapper mb-3">
+        <i class="fa fa-sign-in fa-2x text-primary"></i>
+      </div>
+      <h3 class="fw-bold text-dark">Welcome Back</h3>
+      <p class="text-muted small">Login to manage your orders</p>
+    </div>
+
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+      <app-text-input formControlName="email" label="Email Address" type="email"> </app-text-input>
+
+      <app-text-input formControlName="password" label="Password" type="password"> </app-text-input>
+
+      <div class="d-grid gap-2 mt-3">
+        <button
+          [disabled]="loginForm.invalid"
+          class="btn btn-primary btn-lg rounded-pill shadow-sm"
+          type="submit"
+        >
+          Sign In
+        </button>
+      </div>
+
+      <div class="text-center mt-4">
+        <p class="text-muted small">
+          Don't have an account?
+          <a routerLink="/account/register" class="text-decoration-none fw-bold text-primary"
+            >Sign up</a
+          >
+        </p>
+      </div>
+    </form>
+  </div>
+</div>

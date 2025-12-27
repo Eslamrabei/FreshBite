@@ -1,0 +1,53 @@
+$primary-color: #0d6efd;
+
+.min-vh-100 {
+  min-height: 80vh; // Reduced slightly so it doesn't force scroll on smaller screens
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+// Icon Wrapper Circle
+.icon-wrapper {
+  width: 70px;
+  height: 70px;
+  background-color: rgba($primary-color, 0.1);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
+}
+
+// Input Styling
+.form-control {
+  border: 1px solid #dee2e6;
+  background-color: #f8f9fa;
+  border-radius: 10px;
+
+  &:focus {
+    background-color: #fff;
+    border-color: $primary-color;
+    box-shadow: 0 0 0 0.25rem rgba($primary-color, 0.15);
+  }
+
+  &.is-invalid {
+    border-color: #dc3545;
+    background-image: none; // Cleaner look without the default X
+  }
+}
+
+.form-floating > label {
+  color: #6c757d;
+  font-size: 0.9rem;
+}
+
+// Button Hover
+.btn-primary {
+  transition: all 0.2s;
+  font-weight: 600;
+  &:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba($primary-color, 0.3) !important;
+  }
+}

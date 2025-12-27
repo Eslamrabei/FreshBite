@@ -1,0 +1,46 @@
+<div class="d-flex justify-content-center align-items-center min-vh-100 bg-light">
+
+  <div class="card p-5 border-0 shadow-lg rounded-4" style="width: 400px; background: rgba(255, 255, 255, 0.95);">
+
+    <div class="text-center mb-4">
+      <div class="icon-wrapper mb-3">
+        <i class="fa fa-user-plus fa-2x text-primary"></i>
+      </div>
+      <h3 class="fw-bold text-dark">Sign Up</h3>
+      <p class="text-muted small">Create your account to start shopping</p>
+    </div>
+
+    <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+
+      <app-text-input formControlName="displayName" label="Display Name"></app-text-input>
+
+      <app-text-input formControlName="email" label="Email Address" type="email"></app-text-input>
+
+      <app-text-input formControlName="password" label="Password" type="password"></app-text-input>
+
+      @if(registerForm.get('password')?.hasError('pattern') && registerForm.get('password')?.touched) {
+        <div class="alert alert-danger p-2 mt-1 mb-3 small">
+          <ul class="mb-0 ps-3">
+            <li>1 Uppercase, 1 Lowercase</li>
+            <li>1 Number, 1 Symbol</li>
+            <li>6-10 Characters</li>
+          </ul>
+        </div>
+      }
+
+      <div class="d-grid gap-2 mt-3">
+        <button [disabled]="registerForm.invalid" class="btn btn-primary btn-lg rounded-pill shadow-sm" type="submit">
+          Create Account
+        </button>
+      </div>
+
+      <div class="text-center mt-4">
+        <p class="text-muted small">Already have an account?
+          <a routerLink="/account/login" class="text-decoration-none fw-bold text-primary">Log in</a>
+        </p>
+      </div>
+
+    </form>
+  </div>
+
+</div>

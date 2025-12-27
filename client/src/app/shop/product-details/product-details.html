@@ -1,0 +1,45 @@
+@if (product(); as product) {
+<div class="container mt-5 mb-5">
+  <div class="row align-items-center">
+
+    <div class="col-lg-6 mb-4 mb-lg-0">
+      <div class="image-showcase p-5 rounded-4 shadow-sm bg-white d-flex justify-content-center align-items-center position-relative">
+        <img
+          [src]="product.pictureUrl"
+          [alt]="product.name"
+          class="img-fluid product-image"
+        />
+      </div>
+    </div>
+
+    <div class="col-lg-6 px-lg-5">
+
+      <h2 class="display-6 fw-bold text-dark text-uppercase mb-2">{{ product.name }}</h2>
+
+      <div class="d-flex align-items-center mb-4 border-bottom pb-4">
+        <h3 class="text-primary fw-bold mb-0 me-3">{{ product.price | currency }}</h3>
+        </div>
+
+      <p class="text-muted fs-5 lh-lg mb-5">
+        {{ product.description }}
+      </p>
+
+      <div class="d-flex flex-column flex-sm-row align-items-sm-center gap-3">
+
+        <div class="quantity-selector d-flex align-items-center justify-content-between rounded-pill bg-light border px-3 py-2">
+          <i class="fa fa-minus text-secondary action-icon" (click)="decrementQuantity()"></i>
+          <span class="fw-bold fs-5 mx-3 user-select-none">{{ quantity }}</span>
+          <i class="fa fa-plus text-primary action-icon" (click)="incrementQuantity()"></i>
+        </div>
+
+        <button class="btn btn-primary btn-lg rounded-pill px-5 py-2 flex-grow-1 shadow-sm"
+                (click)="addItemToBasket()">
+          <i class="fa fa-shopping-cart me-2"></i> Add to Cart
+        </button>
+
+      </div>
+
+    </div>
+  </div>
+</div>
+}

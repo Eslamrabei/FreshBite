@@ -1,0 +1,71 @@
+<header class="main-header fixed-top border-bottom">
+  <div class="container d-flex flex-column flex-md-row align-items-center p-3">
+    <h5 class="my-0 mr-md-auto font-weight-bold text-uppercase brand-logo">
+      <i class="fa fa-cutlery me-2 text-primary"></i>FreshBite
+    </h5>
+
+    <nav class="my-2 my-md-0 ms-md-auto me-4 nav-links">
+      <a
+        class="nav-link"
+        routerLink="/"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: true }"
+        >Home</a
+      >
+      <a class="nav-link" routerLink="/shop" routerLinkActive="active">Shop</a>
+      <a class="nav-link" routerLink="/contact" routerLinkActive="active">Contact</a>
+    </nav>
+
+    <div class="d-flex align-items-center action-area">
+      <a routerLink="/basket" class="position-relative cart-icon me-4 text-dark">
+        <i class="fa fa-shopping-cart fa-lg"></i>
+        @if(count() > 0 && currentUser()){
+        <div class="cart-badge bounce-animation">
+          {{ count() }}
+        </div>
+        }
+      </a>
+
+      @if (currentUser()) {
+      <div class="dropdown position-relative">
+        <a class="user-toggle dropdown-toggle d-flex align-items-center" (click)="toggleMenu()">
+          <div class="avatar-circle me-2">
+            {{ currentUser()?.displayName | slice : 0 : 1 | uppercase }}
+          </div>
+          <span class="d-none d-sm-inline"
+            >Hi, <strong>{{ currentUser()?.displayName }}</strong></span
+          >
+        </a>
+
+        @if (showMenu()) {
+        <ul class="dropdown-menu custom-dropdown show">
+          <li>
+            <a routerLink="/basket" class="dropdown-item" (click)="toggleMenu()">
+              <i class="fa fa-shopping-cart me-2 text-primary"></i> View Basket
+            </a>
+          </li>
+          <li>
+            <a routerLink="/orders" class="dropdown-item" (click)="toggleMenu()">
+              <i class="fa fa-history me-2 text-primary"></i> View Orders
+            </a>
+          </li>
+          <li class="dropdown-divider"></li>
+          <li>
+            <a (click)="logout()" class="dropdown-item text-danger" style="cursor: pointer">
+              <i class="fa fa-sign-out me-2"></i> Logout
+            </a>
+          </li>
+        </ul>
+        }
+      </div>
+      } @if (!currentUser()) {
+      <div class="auth-buttons">
+        <a routerLink="/login" class="btn btn-outline-primary me-2">Login</a>
+        <a routerLink="/register" class="btn btn-primary">Sign up</a>
+      </div>
+      }
+    </div>
+  </div>
+</header>
+
+<div style="height: 80px"></div>

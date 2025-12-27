@@ -1,0 +1,16 @@
+$primary-color: #0d6efd;
+
+.table {
+  th { font-size: 0.75rem; letter-spacing: 0.5px; }
+  td { font-size: 0.9rem; }
+}
+
+.img-wrapper img {
+  mix-blend-mode: multiply; // Ensures transparent PNGs look good on gray bg
+}
+
+.badge {
+  font-weight: 500;
+}
+
+

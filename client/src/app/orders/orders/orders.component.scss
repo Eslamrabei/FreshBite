@@ -1,0 +1,19 @@
+$primary-color: #0d6efd;
+
+.table-hover tbody tr:hover {
+  background-color: rgba($primary-color, 0.02); // Very subtle blue tint on hover
+}
+
+.badge {
+  font-weight: 500;
+  letter-spacing: 0.5px;
+  font-size: 0.75rem;
+}
+
+// Button Hover
+.btn-outline-primary {
+  &:hover {
+    background-color: $primary-color;
+    color: white;
+  }
+}

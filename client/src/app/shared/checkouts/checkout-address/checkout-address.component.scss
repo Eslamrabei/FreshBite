@@ -1,0 +1,34 @@
+$primary-color: #0d6efd;
+
+// Custom form control styling to match Login
+.form-control {
+  border: 1px solid #dee2e6;
+  background-color: #f8f9fa; // Slight gray background
+  border-radius: 10px;       // Rounded inputs
+  transition: all 0.2s;
+
+  &:focus {
+    background-color: #fff;
+    border-color: $primary-color;
+    box-shadow: 0 0 0 0.25rem rgba($primary-color, 0.15);
+  }
+
+  &.is-invalid {
+    border-color: #dc3545;
+    background-image: none; // Removes the default X icon if you prefer cleaner look
+  }
+}
+
+.form-floating > label {
+  color: #6c757d;
+  font-size: 0.9rem;
+}
+
+// Button Hover Effects
+.btn-primary {
+  transition: transform 0.2s;
+  &:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba($primary-color, 0.3) !important;
+  }
+}

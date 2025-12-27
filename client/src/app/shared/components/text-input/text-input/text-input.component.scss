@@ -1,0 +1,41 @@
+$primary-color: #0d6efd;
+  // Add this at the very top of the file
+:host {
+  display: block;
+  width: 100%;
+}
+
+// ... rest of your existing styles ...
+$primary-color: #0d6efd;
+
+.form-control {
+  // ...
+}
+.form-control {
+  border: 1px solid #dee2e6;
+  background-color: #f8f9fa;
+  border-radius: 10px;
+
+  &:focus {
+    background-color: #fff;
+    border-color: $primary-color;
+    box-shadow: 0 0 0 0.25rem rgba($primary-color, 0.15);
+  }
+
+  &.is-invalid {
+    border-color: #dc3545;
+    background-image: none;
+  }
+}
+
+.form-floating > label {
+  color: #6c757d;
+  font-size: 0.9rem;
+}
+
+// Positioning the loader if you add it later
+.loader {
+    position: absolute;
+    top: 20px;
+    right: 25px;
+}

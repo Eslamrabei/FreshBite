@@ -1,0 +1,81 @@
+// --- Variables ---
+$primary-color: #0d6efd;
+$hover-bg: #f8f9fa;
+
+// --- Helper Utilities ---
+.rounded-start { border-top-left-radius: 8px; border-bottom-left-radius: 8px; }
+.rounded-end { border-top-right-radius: 8px; border-bottom-right-radius: 8px; }
+
+// --- Table Styling ---
+.table {
+  th {
+    font-weight: 600;
+    font-size: 0.75rem; // Smaller header text
+    letter-spacing: 0.5px;
+  }
+  td {
+    font-size: 0.9rem; // Compact row text
+  }
+}
+
+// --- Image Thumbnail (Reduced Size) ---
+.img-wrapper {
+  width: 50px;  // Was 70px
+  height: 50px; // Was 70px
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  img {
+    max-height: 100%;
+    max-width: 100%;
+    object-fit: contain;
+  }
+}
+
+// --- Product Link Hover ---
+.product-link {
+  transition: color 0.2s;
+  &:hover {
+    color: $primary-color !important;
+  }
+}
+
+// --- Quantity Stepper (Compact) ---
+.quantity-selector {
+  border: 1px solid #dee2e6;
+  background-color: white;
+
+  .action-icon {
+    cursor: pointer;
+    font-size: 0.7rem; // Smaller icons
+    padding: 5px;      // Easier to click
+    transition: all 0.2s;
+
+    &:hover { transform: scale(1.2); }
+    &.fa-minus:hover { color: #dc3545 !important; }
+    &.fa-plus:hover { color: $primary-color !important; }
+  }
+}
+
+// --- Delete Button ---
+.delete-btn {
+  cursor: pointer;
+  opacity: 0.5;
+  transition: all 0.2s;
+  font-size: 0.9rem;
+
+  &:hover {
+    opacity: 1;
+    transform: scale(1.1);
+  }
+}
+
+// --- Checkout Button ---
+.btn-primary {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba($primary-color, 0.3) !important;
+  }
+}

@@ -1,0 +1,112 @@
+// --- Variables ---
+$primary-color: #0d6efd;
+$success-color: #198754;
+$inactive-color: #e9ecef;
+$inactive-text: #6c757d;
+
+.min-vh-50 {
+  min-height: 50vh;
+}
+
+// --- Stepper Container ---
+.stepper-wrapper {
+  position: relative;
+  z-index: 1;
+}
+
+// --- The Line (Track) ---
+.progress-track {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 100%;
+  height: 4px;
+  background-color: $inactive-color;
+  transform: translateY(-50%);
+  z-index: -1;
+  border-radius: 4px;
+}
+
+// --- The Line (Blue Fill) ---
+.progress-fill {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  height: 4px;
+  background-color: $primary-color;
+  transform: translateY(-50%);
+  z-index: -1;
+  transition: width 0.5s ease-in-out; // Smooth animation
+  border-radius: 4px;
+}
+
+// --- Individual Step ---
+.step-item {
+  text-align: center;
+  cursor: pointer;
+  background: white; // Hides the line behind the text/circle
+  padding: 0 10px;
+
+  // Hover effect for future steps
+  &:hover .step-circle {
+    border-color: lighten($primary-color, 20%);
+    color: lighten($primary-color, 10%);
+  }
+}
+
+// --- The Circle ---
+.step-circle {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background-color: white;
+  border: 2px solid $inactive-color;
+  color: $inactive-text;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  margin: 0 auto 10px;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+
+  // When step is completed (Green checkmark look)
+  &.completed {
+    background-color: $success-color;
+    border-color: $success-color;
+    color: white;
+  }
+}
+
+// --- Active State ---
+.step-item.active {
+  .step-circle {
+    border-color: $primary-color;
+    color: $primary-color;
+    // Glow effect
+    box-shadow: 0 0 0 5px rgba($primary-color, 0.1);
+  }
+
+  .step-circle.completed {
+     // Override active style if it's actually completed
+     background-color: $success-color;
+     color: white;
+     border-color: $success-color;
+     box-shadow: none;
+  }
+
+  .step-label {
+    color: $primary-color;
+    font-weight: 700;
+  }
+}
+
+// --- Label ---
+.step-label {
+  font-size: 0.9rem;
+  color: $inactive-text;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  transition: color 0.3s;
+}
