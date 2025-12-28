@@ -3,6 +3,7 @@ import { AiSearchService } from '../../core/services/ai-search.service';
 import { ChatMessage, ProductSearchResponse } from '../../shared/models/product-search-response';
 import { FormsModule } from '@angular/forms';
 import { CurrencyPipe, NgClass, PercentPipe } from '@angular/common';
+import { CartService } from '../../core/services/car.service';
 
 @Component({
   selector: 'app-ai-chat',
@@ -13,6 +14,7 @@ import { CurrencyPipe, NgClass, PercentPipe } from '@angular/common';
 })
 export class SearchComponent {
   private searchService = inject(AiSearchService);
+  private cartService = inject(CartService);
   searchTerm = '';
   aiResults = signal<ProductSearchResponse[]>([]);
   hasSearched = signal(false);
@@ -103,6 +105,14 @@ export class SearchComponent {
   useSuggestion(text: string) {
     this.searchTerm = text;
     this.onSearch();
+  }
+
+
+  /* */
+  cartCount = this.cartService.count;
+
+  addToCart(product: ProductSearchResponse) {
+    this.cartService.addToCart(product);
   }
 
 

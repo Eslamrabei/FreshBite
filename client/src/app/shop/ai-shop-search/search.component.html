@@ -1,4 +1,11 @@
-<button class="ai-fab-btn" (click)="toggleChat()">@if(isOpen()) { ❌ } @else { 🤖 }</button>
+<button class="ai-fab-btn" (click)="toggleChat()">
+
+  @if(cartCount() > 0) {
+    <span class="cart-badge">{{ cartCount() }}</span>
+  }
+
+  @if(isOpen()) { ❌ } @else { 🤖 }
+</button>
 
 @if (isOpen()) {
 <div class="ai-chat-window shadow-lg">
@@ -26,6 +33,9 @@
             <strong>{{ product.name }}</strong>
             <span class="text-success fw-bold">{{ product.price | currency : 'EGP ' }}</span>
           </div>
+          <button class="btn btn-sm btn-outline-primary ms-2" (click)="addToCart(product)">
+            + Add 🛒
+          </button>
           <p class="small text-muted mb-1">{{ product.description }}</p>
           <span
             class="badge"
@@ -46,18 +56,16 @@
     }
   </div>
   <div class="suggestions-wrapper">
-
-  @for (chip of (showAllSuggestions() ? suggestions : suggestions.slice(0, 4)); track $index) {
+    @for (chip of (showAllSuggestions() ? suggestions : suggestions.slice(0, 4)); track $index) {
     <button class="chip-btn" (click)="useSuggestion(chip)">
       {{ chip }}
     </button>
-  }
+    }
 
-  <button class="more-btn" (click)="toggleSuggestions()">
-    {{ showAllSuggestions() ? 'Less 🔼' : 'More 🔽' }}
-  </button>
-
-</div>
+    <button class="more-btn" (click)="toggleSuggestions()">
+      {{ showAllSuggestions() ? 'Less 🔼' : 'More 🔽' }}
+    </button>
+  </div>
   <div class="chat-footer">
     <div class="input-group">
       <input
