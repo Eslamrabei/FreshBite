@@ -13,11 +13,12 @@
                 options.InvalidModelStateResponseFactory = ApiResponseFactory.CustomeValidationApiResponse;
             });
 
+            services.AddScoped<Stripe.PaymentIntentService>();
+            services.AddScoped<IPaymentService, PaymentService>();
             services.AddScoped<IProductService, ProductService>();
             services.AddScoped<IBasketService, BasketService>();
             services.AddScoped<IAuthenticationService, AuthenticationService>();
             services.AddScoped<IOrderService, OrderService>();
-            services.AddScoped<IPaymentService, PaymentService>();
             services.AddScoped<ICacheService, CacheService>();
             services.AddScoped<IRefreshTokenServices, RefreshTokenServices>();
             services.AddScoped<IFileService, FileService>();

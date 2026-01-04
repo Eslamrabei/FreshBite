@@ -16,9 +16,14 @@ namespace Service.Implementations
 
         public async Task<UserResultDto> GetCurrentUSerAsync(string userEmail)
         {
-            var user = await _userManager.FindByEmailAsync(userEmail) ?? throw new GenericNotFoundException<User, int>(userEmail, "userEmail");
+            var user = await _userManager.FindByEmailAsync(userEmail)
+                ?? throw new GenericNotFoundException<User, int>(userEmail, "userEmail");
 
-            return new UserResultDto(user.DisplayName, AccessToken: await GenerateAccessToken(user), RefreshToken: GenerateRefreshToken(), userEmail);
+            return new UserResultDto(user.DisplayName,
+                                    AccessToken: await GenerateAccessToken(user),
+                                    RefreshToken: GenerateRefreshToken(),
+                                    userEmail
+                                    );
         }
 
         public async Task<AddressDto> GetUserAddressAsync(string userEmail)
@@ -129,8 +134,6 @@ namespace Service.Implementations
             return new UserResultDto(user.DisplayName, newaccessToken, newrefreshToken, user.Email);
 
         }
-
-
 
         private async Task<string> GenerateAccessToken(User user)
         {

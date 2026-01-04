@@ -13,7 +13,7 @@ namespace Persistence.Repositories
 
         public async Task SetCacheAsync(string key, object Value, TimeSpan TimeToLive)
         {
-            var options = new JsonSerializerOptions
+            JsonSerializerOptions options = new()
             {
                 PropertyNamingPolicy = JsonNamingPolicy.CamelCase
             };

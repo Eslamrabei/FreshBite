@@ -5,7 +5,7 @@ using Product = Domain.Entities.ProductModule.Product;
 namespace Service.Implementations
 {
     public class PaymentService(IConfiguration _configuration, IBasketRepository _basketRepository,
-        IUnitOfWork _unitOfWork, IMapper _mapper) : IPaymentService
+        IUnitOfWork _unitOfWork, IMapper _mapper, PaymentIntentService _paymentIntentService) : IPaymentService
     {
 
         public async Task<BasketDto> CreateOrUpdatePaymentIntentIdAsync(string basketId)
@@ -21,7 +21,7 @@ namespace Service.Implementations
 
         private async Task CreateOrUpdatePaymentIntendHelperAsync(CustomerBasket basket, long Total)
         {
-            var StripeService = new PaymentIntentService();
+            var StripeService = _paymentIntentService;
             if (string.IsNullOrEmpty(basket.PaymentIndentId))
             {
                 var options = new PaymentIntentCreateOptions
@@ -61,9 +61,11 @@ namespace Service.Implementations
                 item.Price = product.Price;
             }
 
-            if (!basket.DeliveryMethodId.HasValue) throw new GenericNotFoundException<DeliveryMethod, int>(basket.DeliveryMethodId, "DeliveryMethodId");
+            if (!basket.DeliveryMethodId.HasValue)
+                throw new GenericNotFoundException<DeliveryMethod, int>(basket.DeliveryMethodId, "DeliveryMethodId");
             var deliveryMethod = await _unitOfWork.GetRepository<DeliveryMethod, int>()
-                .GetByIdAsync(basket.DeliveryMethodId.Value) ?? throw new GenericNotFoundException<DeliveryMethod, int>(basket.DeliveryMethodId.Value, "DeliveryMethodId");
+                .GetByIdAsync(basket.DeliveryMethodId.Value)
+                ?? throw new GenericNotFoundException<DeliveryMethod, int>(basket.DeliveryMethodId.Value, "DeliveryMethodId");
             basket.ShippingPrice = deliveryMethod.Price;
         }
 

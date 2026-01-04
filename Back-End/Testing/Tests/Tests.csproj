@@ -23,5 +23,8 @@
     <ProjectReference Include="..\..\Infrastructure\Persistence\Persistence.csproj" />
     <ProjectReference Include="..\..\Infrastructure\Presentation\Presentation.csproj" />
   </ItemGroup>
+	<ItemGroup>
+		<FrameWorkReference Include="Microsoft.AspNetCore.App" />
+	</ItemGroup>
 
 </Project>
