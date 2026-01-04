@@ -4,7 +4,7 @@ using Shared.Dtos.AiSearch;
 namespace Service.Implementations
 {
     public class ProductService(IUnitOfWork _unitOfWork, IMapper _mapper, IProductRepository _productRepository,
-        IValidator<UpdateProductDto> _validator)
+        IValidator<UpdateProductDto> _validator, IFileService _fileService)
         : IProductService
     {
         public async Task<IEnumerable<BrandResultDto>> GetAllBrandsAsync()
@@ -55,6 +55,14 @@ namespace Service.Implementations
         {
             var entity = await _productRepository.GetByIdAsync(id)
                 ?? throw new GenericNotFoundException<Product, int>(id, "productId");
+
+            if (!string.IsNullOrWhiteSpace(entity.PictureUrl))
+            {
+                var fileName = Path.GetFileName(entity.PictureUrl);
+                var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "images", "products", fileName);
+                _fileService.DeleteFile(filePath);
+            }
+
             _productRepository.Delete(entity);
             return await _unitOfWork.SaveChangeAsync() > 0;
 
@@ -72,7 +80,26 @@ namespace Service.Implementations
             OldEntity.Name = dto.Name;
             OldEntity.Description = dto.Description;
             OldEntity.Price = dto.Price;
-            OldEntity.PictureUrl = dto.PictureUrl;
+
+
+            if (dto.ImageFile != null)
+            {
+                var FolderPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "images", "products");
+                if (!Directory.Exists(FolderPath))
+                    Directory.CreateDirectory(FolderPath);
+
+                var FileName = $"{Guid.NewGuid()}{Path.GetExtension(dto.ImageFile.FileName)}";
+                var FilePath = Path.Combine(FolderPath, FileName);
+
+                using (var fileStream = new FileStream(FilePath, FileMode.Create))
+                {
+                    await dto.ImageFile.CopyToAsync(fileStream);
+                }
+
+                dto.PictureUrl = $"/images/products/{FileName}";  // For vectore Db
+                OldEntity.PictureUrl = dto.PictureUrl;
+
+            }
 
             await _unitOfWork.SaveChangeAsync();
 

@@ -25,7 +25,7 @@ namespace Presentation.Attributes
             var resultContent = await next.Invoke();
             if (resultContent.Result is ObjectResult objectResult)
             {
-                await cacheService.SetCacheAsync(key, objectResult, TimeSpan.FromSeconds(durationInSecondes));
+                await cacheService.SetCacheAsync(key, objectResult.Value, TimeSpan.FromSeconds(durationInSecondes));
             }
 
         }

@@ -2,7 +2,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { map } from 'rxjs'; // Import map
 import { ShopParams } from '../shared/models/shop-params';
-import { Brand, Pagination, Product, ProductType } from '../shared/models/pagination';
+import {  Product } from '../shared/models/pagination';
 import { environment } from '../../environments/environment';
 
 @Injectable({
@@ -19,23 +19,19 @@ export class ShopService {
     if (shopParams.brandId > 0) params = params.append('brandId', shopParams.brandId);
     if (shopParams.typeId > 0) params = params.append('typeId', shopParams.typeId);
 
-    // Ensure sort is a string or number based on backend expectation
-    params = params.append('sort', shopParams.sort);
+    params = params.append('sortingOptions', shopParams.sort);
     params = params.append('pageIndex', shopParams.pageIndex);
     params = params.append('pageSize', shopParams.pageSize);
     if (shopParams.search) params = params.append('search', shopParams.search);
 
-    // We use pipe(map()) to clean the data BEFORE it reaches the component
     return this.http.get<any>(this.baseUrl + 'products', { params }).pipe(
       map(response => {
-        // Handle the "Wrapper" object (response.Value) or direct response
         const root = response.Value || response;
 
-        // Map the PascalCase backend data to camelCase frontend model
         if (root.Data) {
             root.Data = root.Data.map((item: any) => this.normalizeProduct(item));
         }
-        return root; // Returns { Data: [...], TotalCount: 18, ... }
+        return root;
       })
     );
   }
@@ -43,10 +39,8 @@ export class ShopService {
   getProductById(id: number) {
     return this.http.get<any>(this.baseUrl + 'products/' + id).pipe(
       map(response => {
-        // 1. Handle the API wrapper (if it exists)
         const data = response.Value || response;
 
-        // 2. Convert PascalCase (API) to camelCase (Angular)
         return this.normalizeProduct(data);
       })
     );
@@ -70,7 +64,7 @@ export class ShopService {
     );
   }
 
-  // Helper to fix Casing
+
   private normalizeProduct(item: any): Product {
     return {
         id: item.Id || item.id,

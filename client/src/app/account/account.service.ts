@@ -27,15 +27,14 @@ export class AccountService {
     return this.http.get<User>(this.baseUrl + 'Authentication').pipe(
       map(user => {
         if (user) {
-          localStorage.setItem('token', user.token);
+          localStorage.setItem('token', user.accessToken);
           this.currentUserSource.next(user);
           return user;
         }
         return null;
       }),
       catchError(err => {
-        // THE FIX: If the token is invalid/expired, the API returns an error.
-        // We must clear the local storage so we don't get stuck in this loop.
+
         console.error('Token is invalid or expired', err);
         localStorage.removeItem('token');
         this.currentUserSource.next(null);
@@ -52,7 +51,7 @@ export class AccountService {
     return this.http.post<User>(this.baseUrl + 'Authentication/Login', values).pipe(
       map(user => {
         if (user) {
-          localStorage.setItem('token', user.token);
+          localStorage.setItem('token', user.accessToken);
           this.currentUserSource.next(user);
         }
         return user;
@@ -64,7 +63,7 @@ export class AccountService {
     return this.http.post<User>(this.baseUrl + 'Authentication/Register', values).pipe(
       map(user => {
         if (user) {
-          localStorage.setItem('token', user.token);
+          localStorage.setItem('token', user.accessToken);
           this.currentUserSource.next(user);
         }
         return user;

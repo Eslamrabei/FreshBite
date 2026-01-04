@@ -1,4 +1,4 @@
-import { Component, input, output, signal } from '@angular/core';
+import { Component, input, model, output, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { PaginationModule } from 'ngx-bootstrap/pagination';
 import { Pagination, Product } from '../../models/pagination';
@@ -10,15 +10,16 @@ import { Pagination, Product } from '../../models/pagination';
   styleUrl: './pager.scss',
 })
 export class Pager {
-  totalCount = input<number>();
-  pageSize = input<number>();
+  totalCount = input<number>(0);
+  pageSize = input<number>(10);
   pageChanged = output<number>();
-  pageIndex = 1;
+  pageIndex = model<number>(1);
 
 
 
   onPagerChange(event: any) {
-    this.pageChanged.emit(event.page)
+    this.pageIndex.set(event.page);
+    this.pageChanged.emit(event.page);
   }
 
 }

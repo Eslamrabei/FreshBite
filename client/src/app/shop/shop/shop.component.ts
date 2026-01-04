@@ -5,19 +5,21 @@ import { ShopParams } from '../../shared/models/shop-params';
 import { Brand, Product, ProductType } from '../../shared/models/pagination';
 import { ProductItemComponent } from '../products-item/product-item.component';
 import { Pager } from "../../shared/components/pager/pager";
+import { SearchBarComponent } from "../Search-bar/search.component";
 
 
 @Component({
   selector: 'app-shop',
   standalone: true,
-  imports: [CommonModule, ProductItemComponent, Pager], // Add imports
+  imports: [CommonModule, ProductItemComponent, Pager, SearchBarComponent],
   templateUrl: './shop.component.html',
   styleUrls: ['./shop.component.scss']
 })
-export class ShopComponent implements OnInit {
-  private shopService = inject(ShopService); // Modern inject style
 
-  products: Product[] = [];
+export class ShopComponent implements OnInit {
+  private shopService = inject(ShopService);
+
+  products = signal<Product[]>([]);
   brands = signal<Brand[]>([]);
   types = signal<ProductType[]>([]);
   totalCount = signal(0);
@@ -25,9 +27,10 @@ export class ShopComponent implements OnInit {
   shopParams = new ShopParams();
 
   sortOptions = [
-    { name: 'Alphabetical', value: 'name' },
-    { name: 'Price: Low to High', value: 'priceAsc' },
-    { name: 'Price: High to Low', value: 'priceDesc' }
+    { name: 'Name', value: 1 },
+    { name: 'NameDesc', value: 2 },
+    { name: 'PriceAsc', value: 3 },
+    { name: 'PriceDesc', value: 4 }
   ];
 
   ngOnInit(): void {
@@ -36,28 +39,38 @@ export class ShopComponent implements OnInit {
     this.getTypes();
   }
 
+  // Search Bar
+  onSearchChange(searchTerm: string) {
+    this.shopParams.search = searchTerm;
+    this.shopParams.pageIndex = 1;
+    this.getSpecificProducts();
+  }
+  onResetSearch() {
+    this.shopParams.search = '';
+    this.shopParams.pageIndex = 1;
+    this.getProducts();
+  }
+  getSpecificProducts() {
+    this.shopService.getProducts(this.shopParams).subscribe({
+      next: res => {
+        this.products.set(res.data);
+      }
+    });
+  }
+
+//////
+
   getProducts() {
-  this.shopService.getProducts(this.shopParams).subscribe({
-    next: (response: any) => {
-      if (response.Data) {
-        this.products = response.Data;
-      } else if (response.data) {
-        this.products = response.data;
-      }
-
-      if (response.TotalCount !== undefined) {
-        this.totalCount.set(response.TotalCount);
-      } else if (response.totalCount !== undefined) {
+    this.shopService.getProducts(this.shopParams).subscribe({
+      next: (response) => {
+        console.log(response);
+        this.products.set( response.data);
         this.totalCount.set(response.totalCount);
-      } else if (response.count !== undefined) {
-        this.totalCount.set(response.count);
-      }
-
-      console.log('Total Count set to:', this.totalCount());
-    },
-    error: error => console.log(error)
-  });
-}
+        console.log('Total Count set to:', this.totalCount());
+      },
+      error: error => console.log(error)
+    });
+  }
 
   getBrands() {
     this.shopService.getBrands().subscribe({

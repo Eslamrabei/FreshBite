@@ -14,10 +14,15 @@ import { authGuard } from './core/guards/auth.guard';
 import { HomeComponent } from './shared/components/home/home.component';
 import { ContactComponent } from '../contact/contact/contact.component';
 import { SearchComponent } from './shop/ai-shop-search/search.component';
+import { AdminProductComponent } from './Admin/admin-products/admin-product.component';
 
 
 
 export const routes: Routes = [
+  {
+    path: 'admin',
+    loadChildren: () => import('./Admin/admin.routes').then(m => m.AdminRoutes)
+  },
   { path: '', component: HomeComponent, title: 'Home' },
   { path: 'contact', component: ContactComponent, title: 'Contact' },
   { path: 'shop', component: ShopComponent, title: 'Shop' },

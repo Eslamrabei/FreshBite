@@ -20,6 +20,7 @@
             services.AddScoped<IPaymentService, PaymentService>();
             services.AddScoped<ICacheService, CacheService>();
             services.AddScoped<IRefreshTokenServices, RefreshTokenServices>();
+            services.AddScoped<IFileService, FileService>();
 
 
             services.AddScoped<Func<IProductService>>(provider => () => provider.GetRequiredService<IProductService>());
@@ -29,7 +30,7 @@
             services.AddScoped<Func<IPaymentService>>(provider => () => provider.GetRequiredService<IPaymentService>());
             services.AddScoped<Func<ICacheService>>(provider => () => provider.GetRequiredService<ICacheService>());
             services.AddScoped<Func<IRefreshTokenServices>>(provider => () => provider.GetRequiredService<IRefreshTokenServices>());
-
+            services.AddScoped<Func<IFileService>>(provider => () => provider.GetRequiredService<IFileService>());
 
 
             return services;
