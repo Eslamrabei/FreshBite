@@ -144,3 +144,8 @@ wwwroot/dist/
 wwwroot/node_modules/
 
 
+# md
+*.md
+
+
+

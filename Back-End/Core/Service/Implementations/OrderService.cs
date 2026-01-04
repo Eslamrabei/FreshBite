@@ -60,8 +60,10 @@ namespace Service.Implementations
 
         public async Task<OrderResultDto> GetOrderByIdAsync(Guid id)
         {
-            var orderSpecifications = new OrderWithIncludesSpecifications(id) ?? throw new GenericNotFoundException<Order, Guid>(id, "Id");
-            var ordreResult = await _unitOfWork.GetRepository<Order, Guid>().GetByIdAsync(orderSpecifications);
+            var orderSpecifications = new OrderWithIncludesSpecifications(id)
+                ?? throw new GenericNotFoundException<Order, Guid>(id, "Id");
+            var ordreResult = await _unitOfWork.GetRepository<Order, Guid>().GetByIdAsync(orderSpecifications)
+                ?? throw new GenericNotFoundException<Order, Guid>(id, "Id");
             return _mapper.Map<OrderResultDto>(ordreResult);
         }
     }

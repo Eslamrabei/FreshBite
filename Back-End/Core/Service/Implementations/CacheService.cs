@@ -6,6 +6,10 @@
         => await _cacheRepository.GetCacheAsync(key);
 
         public async Task SetCacheAsync(string key, object Value, TimeSpan TimeToLive)
-        => await _cacheRepository.SetCacheAsync(key, Value, TimeToLive);
+        {
+            if (key == null)
+                throw new ArgumentNullException(nameof(key));
+            await _cacheRepository.SetCacheAsync(key, Value, TimeToLive);
+        }
     }
 }
