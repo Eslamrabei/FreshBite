@@ -18,9 +18,9 @@ namespace Presentation.Controllers
 
         [HttpGet("EmailExist")]
         [AllowAnonymous]
-        public async Task<ActionResult<bool>> CheckEmailExistAsync()
+        public async Task<ActionResult<bool>> CheckEmailExistAsync(string userEmail)
         {
-            var userEmail = User.FindFirstValue(ClaimTypes.Email);
+            //var userEmail = User.FindFirstValue(ClaimTypes.Email);
             var checkEmail = await _serviceManager.AuthenticationService.CheckEmailExistAsync(userEmail);
             return Ok(checkEmail);
         }

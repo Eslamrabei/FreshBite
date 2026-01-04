@@ -16,11 +16,11 @@ export interface Pagination<T> {
 }
 
 export interface Brand {
-  id: number;   // Capital I
-  name: string; // Capital N
+  id: number;
+  name: string;
 }
 
 export interface ProductType {
-  id: number;   // Capital I
-  name: string; // Capital N
+  id: number;
+  name: string;
 }

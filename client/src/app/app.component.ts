@@ -29,7 +29,7 @@ export class App implements OnInit {
 
   loadCurrentUser() {
     const token = localStorage.getItem('token');
-    this.accountService.loadCurrentUser(token).subscribe({});
+    this.accountService.loadCurrentUser(token).subscribe();
   }
 
   loadCurrentBasket() {

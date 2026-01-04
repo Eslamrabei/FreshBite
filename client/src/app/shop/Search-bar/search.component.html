@@ -1,0 +1,12 @@
+<div class="my-3 d-flex gap-2 w-100 justify-content-end">
+  <input
+    type="text"
+    class="form-control w-75"
+    placeholder="Search"
+    [(ngModel)]="search"
+    (keyup.enter)="onSearch()"
+  />
+  <button class="btn btn-primary" (click)="onSearch()">Search</button>
+
+  <button class="btn btn-secondary" (click)="onReset()">Cancel</button>
+</div>

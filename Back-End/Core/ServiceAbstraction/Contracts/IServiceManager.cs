@@ -9,5 +9,6 @@
         public IPaymentService PaymentService { get; }
         public ICacheService CacheService { get; }
         public IRefreshTokenServices RefreshTokenServices { get; }
+        public IFileService FileService { get; }
     }
 }

@@ -1,24 +1,25 @@
 ﻿using FluentValidation;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using Shared.Dtos.AiSearch;
 
 namespace Presentation.Controllers
 {
-    public class AdminDashboardController(IVectorService _vectorService,
+    public class AdminController(IVectorService _vectorService,
         IEmbeddingService _embeddingService, IServiceManager _service, IValidator<CreatedProductDto> _validator,
-        ILogger<AdminDashboardController> _logger) : ApiController
+        ILogger<AdminController> _logger) : ApiController
     {
         [HttpPost]
         public async Task<IActionResult> AddProduct(CreatedProductDto dto)
         {
             var result = await _validator.ValidateAsync(dto);
+            if (!result.IsValid)
+            {
+                return BadRequest();
+            }
             int id = 0;
             try
             {
-                if (!result.IsValid)
-                {
-                    return BadRequest();
-                }
                 var TextToEmbed = $"{dto.Name} - {dto.Description} - {dto.Price}";
                 var vectors = await _embeddingService.GetEmbeddingAsync(TextToEmbed);
 
@@ -30,22 +31,23 @@ namespace Presentation.Controllers
             catch (Exception ex)
             {
                 _logger.LogError($"Error: {ex.Message}");
-                await _service.ProductService.DeleteProduct(id);
+                if (id > 0)
+                    await _service.ProductService.DeleteProduct(id);
                 return StatusCode(500, "Internal Server Error");
             }
 
         }
 
-        [HttpDelete]
-        public async Task<IActionResult> DeleteProduct(int productId)
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteProduct(int id)
         {
-            if (productId <= 0) return BadRequest();
+            if (id <= 0) return BadRequest();
             try
             {
-                bool result = await _service.ProductService.DeleteProduct(productId);
+                bool result = await _service.ProductService.DeleteProduct(id);
                 if (!result) return NotFound();
 
-                _ = _vectorService.DeleteProductAsync(productId);
+                _ = _vectorService.DeleteProductAsync(id);
 
                 return Ok();
             }
@@ -58,10 +60,10 @@ namespace Presentation.Controllers
         }
 
 
-        [HttpPut]
-        public async Task<IActionResult> UpdateProduct(UpdateProductDto dto)
+        [HttpPut("{Id}")]
+        public async Task<IActionResult> UpdateProduct(int Id, [FromForm] UpdateProductDto dto)
         {
-            if (dto.Id <= 0) return BadRequest("Invalid Product ID");
+            if (Id <= 0 && Id != dto.Id) return BadRequest("Invalid Product ID");
             try
             {
 
@@ -78,6 +80,17 @@ namespace Presentation.Controllers
                 return BadRequest($"Failed to update product: {ex.Message}");
             }
         }
+
+        [HttpPost("upload-image")]
+        public async Task<IActionResult> UpoaldImage(IFormFile file)
+        {
+            if (file == null) return BadRequest("No File Sent");
+
+            var fileName = await _service.FileService.UploadFileAsync(file, "products");
+            return Ok(new { filePath = fileName });
+        }
+
+
 
     }
 }

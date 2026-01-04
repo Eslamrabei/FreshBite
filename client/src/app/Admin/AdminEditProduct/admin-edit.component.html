@@ -1,0 +1,89 @@
+<div class="container mt-5 mb-5">
+  <div class="row justify-content-center">
+    <div class="col-lg-8">
+      <div class="card shadow-lg">
+        <div class="card-header pt-4 pb-3 bg-light-subtle">
+          <h2 class="h4 text-warning fw-bold mb-1">
+            <i class="bi bi-pencil-square me-2"></i>Edit Product
+          </h2>
+          <p class="text-muted small mb-0">Update existing product details.</p>
+        </div>
+
+        <div class="card-body p-4">
+          <form [formGroup]="productForm" (ngSubmit)="onSubmit()">
+            <div class="mb-4">
+              <label class="form-label fw-bold small text-uppercase text-muted">Product Name</label>
+              <input
+                type="text"
+                class="form-control"
+                formControlName="name"
+                [class.is-invalid]="
+                  productForm.get('name')?.touched && productForm.get('name')?.invalid
+                "
+              />
+            </div>
+
+            <div class="mb-4">
+              <label class="form-label fw-bold small text-uppercase text-muted">Description</label>
+              <textarea class="form-control" formControlName="description" rows="4"></textarea>
+            </div>
+
+            <div class="row">
+              <div class="col-md-6 mb-4">
+                <label class="form-label fw-bold small text-uppercase text-muted">Price</label>
+                <div class="input-group">
+                  <span class="input-group-text bg-light fw-bold">EGP</span>
+                  <input type="number" class="form-control" formControlName="price" />
+                </div>
+              </div>
+
+              <div class="image-upload-container">
+
+                <img
+                  [src]="imagePreview()"
+                  alt="Product Image"
+                  style="width: 150px; height: 150px; object-fit: cover"
+                />
+
+                <input type="file" (change)="onImageChange($event)"  />
+              </div>
+
+              <div class="row">
+                <div class="col-md-6 mb-4">
+                  <label class="form-label fw-bold small text-uppercase text-muted">Brand</label>
+                  <select class="form-select" formControlName="brandId">
+                    @for (brand of brands(); track brand.id) {
+                    <option [value]="brand.id">{{ brand.name }}</option>
+                    }
+                  </select>
+                </div>
+              </div>
+
+              <div class="col-md-6 mb-4">
+                <label class="form-label fw-bold small text-uppercase text-muted">Type</label>
+                <select class="form-select" formControlName="typeId">
+                  @for (type of types(); track type.id) {
+                  <option [value]="type.id">{{ type.name }}</option>
+                  }
+                </select>
+              </div>
+            </div>
+
+            <div class="d-flex justify-content-end gap-2 mt-4 pt-3 border-top">
+              <button type="button" class="btn btn-light border px-4" routerLink="/admin/products">
+                Discard
+              </button>
+              <button
+                type="submit"
+                class="btn btn-warning px-4 text-white fw-bold"
+                [disabled]="productForm.invalid"
+              >
+                Save Changes
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

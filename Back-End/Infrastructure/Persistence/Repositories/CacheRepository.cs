@@ -13,7 +13,11 @@ namespace Persistence.Repositories
 
         public async Task SetCacheAsync(string key, object Value, TimeSpan TimeToLive)
         {
-            var resultValue = JsonSerializer.Serialize(Value);
+            var options = new JsonSerializerOptions
+            {
+                PropertyNamingPolicy = JsonNamingPolicy.CamelCase
+            };
+            var resultValue = JsonSerializer.Serialize(Value, options);
             await _database.StringSetAsync(key, resultValue, TimeToLive);
         }
     }

@@ -1,7 +1,7 @@
 export interface User {
   email: string;
   displayName: string;
-  token: string;
+  accessToken: string;
 }
 
 export interface Address {

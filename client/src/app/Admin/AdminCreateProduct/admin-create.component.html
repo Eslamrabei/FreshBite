@@ -1,0 +1,125 @@
+<div class="container mt-5 mb-5">
+  <div class="row justify-content-center">
+    <div class="col-lg-8">
+      <div class="card shadow-lg">
+        <div class="card-header pt-4 pb-3">
+          <h2 class="h4 text-primary fw-bold mb-1">
+            <i class="bi bi-plus-circle-fill me-2"></i>Create New Product
+          </h2>
+          <p class="text-muted small mb-0">Add a new item to your catalog.</p>
+        </div>
+
+        <div class="card-body p-4">
+          <form [formGroup]="productForm" (ngSubmit)="onSubmit()">
+            <div class="mb-4">
+              <label class="form-label fw-bold small text-uppercase text-muted">Product Name</label>
+              <input
+                type="text"
+                class="form-control"
+                formControlName="name"
+                placeholder="e.g. Food"
+                [class.is-invalid]="
+                  productForm.get('name')?.touched && productForm.get('name')?.invalid
+                "
+              />
+              <div class="invalid-feedback">Product name is required.</div>
+            </div>
+
+            <div class="mb-4">
+              <label class="form-label fw-bold small text-uppercase text-muted">Description</label>
+              <textarea
+                class="form-control"
+                formControlName="description"
+                rows="4"
+                placeholder="Describe the product..."
+              ></textarea>
+              <div class="invalid-feedback">Description is required.</div>
+            </div>
+
+            <div class="row">
+              <div class="col-md-6 mb-4">
+                <label class="form-label fw-bold small text-uppercase text-muted">Price</label>
+                <div class="input-group">
+                  <span class="input-group-text bg-light fw-bold">EGP</span>
+                  <input
+                    type="number"
+                    class="form-control"
+                    formControlName="price"
+                    placeholder="0.00"
+                  />
+                </div>
+              </div>
+
+              <div class="mb-4">
+                <label class="form-label fw-bold small text-uppercase text-muted"
+                  >Product Image</label
+                >
+
+                <input
+                  type="file"
+                  class="form-control"
+                  (change)="onFileSelected($event)"
+                />
+
+                <input type="hidden" formControlName="pictureUrl" />
+
+                @if (isUploading()) {
+                <div class="text-primary mt-2 small">
+                  <div class="spinner-border spinner-border-sm" role="status"></div>
+                  Uploading to server...
+                </div>
+                } @if (productForm.get('pictureUrl')?.touched &&
+                productForm.get('pictureUrl')?.invalid) {
+                <div class="text-danger small mt-1">You must upload an image.</div>
+                }
+              </div>
+
+              @if (productForm.get('pictureUrl')?.value) {
+              <div class="mb-4 text-center p-3 border rounded bg-light">
+                <p class="text-muted small mb-2">Image Preview</p>
+                <img
+                  [src]="img + productForm.get('pictureUrl')?.value"
+                  alt="Preview"
+                  class="img-fluid rounded shadow-sm"
+                  style="max-height: 200px"
+                />
+              </div>
+              }
+            </div>
+
+            <div class="row">
+              <div class="col-md-6 mb-4">
+                <label class="form-label fw-bold small text-uppercase text-muted">Brand</label>
+                <select class="form-select" formControlName="brandId">
+                  <option [ngValue]="null" disabled>Select Brand...</option>
+                  @for (brand of brands(); track brand.id) {
+                  <option [value]="brand.id">{{ brand.name }}</option>
+                  }
+                </select>
+              </div>
+
+              <div class="col-md-6 mb-4">
+                <label class="form-label fw-bold small text-uppercase text-muted">Type</label>
+                <select class="form-select" formControlName="typeId">
+                  <option [ngValue]="null" disabled>Select Type...</option>
+                  @for (type of types(); track type.id) {
+                  <option [value]="type.id">{{ type.name }}</option>
+                  }
+                </select>
+              </div>
+            </div>
+
+            <div class="d-flex justify-content-end gap-2 mt-4 pt-3 border-top">
+              <button type="button" class="btn btn-light border px-4" routerLink="/admin/products">
+                Cancel
+              </button>
+              <button type="submit" class="btn btn-primary px-4" [disabled]="productForm.invalid">
+                Create Product
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
