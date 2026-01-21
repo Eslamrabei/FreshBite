@@ -21,7 +21,8 @@ import { AdminProductComponent } from './Admin/admin-products/admin-product.comp
 export const routes: Routes = [
   {
     path: 'admin',
-    loadChildren: () => import('./Admin/admin.routes').then(m => m.AdminRoutes)
+    loadChildren: () => import('./Admin/admin.routes').then(m => m.AdminRoutes),
+    canActivate: [authGuard]
   },
   { path: '', component: HomeComponent, title: 'Home' },
   { path: 'contact', component: ContactComponent, title: 'Contact' },

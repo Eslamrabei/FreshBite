@@ -21,7 +21,7 @@ export class NavBar {
 
   basket = toSignal(this.basketService.basket$);
   currentUser = toSignal(this.accountService.currentUser$);
-
+  token = signal('');
 
   showMenu = signal(false);
 
@@ -30,6 +30,10 @@ export class NavBar {
     return currentBasket?.items.reduce((sum, item) => sum + item.quantity, 0) ?? 0;
   });
 
+
+  isAdmin(){
+    
+  }
 
   toggleMenu() {
     this.showMenu.update(value => !value);

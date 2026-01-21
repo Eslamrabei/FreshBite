@@ -6,6 +6,7 @@ import { Brand, Product, ProductType } from '../../shared/models/pagination';
 import { ProductItemComponent } from '../products-item/product-item.component';
 import { Pager } from "../../shared/components/pager/pager";
 import { SearchBarComponent } from "../Search-bar/search.component";
+import { AdminListBase } from '../../core/Base/admin-list.base';
 
 
 @Component({
@@ -34,6 +35,7 @@ export class ShopComponent implements OnInit {
   ];
 
   ngOnInit(): void {
+
     this.getProducts();
     this.getBrands();
     this.getTypes();
@@ -58,13 +60,13 @@ export class ShopComponent implements OnInit {
     });
   }
 
-//////
+  //////
 
   getProducts() {
     this.shopService.getProducts(this.shopParams).subscribe({
       next: (response) => {
         console.log(response);
-        this.products.set( response.data);
+        this.products.set(response.data);
         this.totalCount.set(response.totalCount);
         console.log('Total Count set to:', this.totalCount());
       },

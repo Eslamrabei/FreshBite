@@ -27,7 +27,7 @@ namespace Tests.Services
         private readonly Mock<IUnitOfWork> _mockUnitOfWork;
         private readonly Mock<IRefreshTokenRepository> _mockRefreshTokenRepository;
         private readonly Mock<IConfiguration> _mockConfiguration;
-        private readonly Mock<RoleManager<User>> _mockRoleManager;
+        private readonly Mock<RoleManager<IdentityRole>> _mockRoleMAnager;
 
         public AuthenticationServiceTests()
         {
@@ -38,7 +38,8 @@ namespace Tests.Services
             _mockUnitOfWork = MockOf<IUnitOfWork>();
             _mockRefreshTokenRepository = MockOf<IRefreshTokenRepository>();
             _mockConfiguration = MockOf<IConfiguration>();
-            _mockRoleManager = new Mock<RoleManager<User>>();
+            _mockRoleMAnager = new();
+
 
             _sut = new AuthenticationService(
                 _mockUserManager.Object,
@@ -47,7 +48,8 @@ namespace Tests.Services
                 _mockRefreshTokenServices.Object,
                 _mockUnitOfWork.Object,
                 _mockRefreshTokenRepository.Object,
-                _mockConfiguration.Object
+                _mockConfiguration.Object,
+                _mockRoleMAnager.Object
             );
         }
 

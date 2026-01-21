@@ -6,6 +6,8 @@ import Swal from 'sweetalert2';
 
 import { Product } from '../../shared/models/pagination';
 import { AdminService } from '../admin.service';
+import { AdminListBase } from '../../core/Base/admin-list.base';
+import { ShopService } from '../../shop/shop.service';
 
 
 @Component({
@@ -15,32 +17,27 @@ import { AdminService } from '../admin.service';
   templateUrl: './admin-product.component.html',
   styleUrl: './admin-product.component.scss',
 })
-export class AdminProductComponent implements OnInit {
+export class AdminProductComponent extends AdminListBase<Product> implements OnInit {
+
   private adminService = inject(AdminService);
-
-  products = signal<Product[]>([]);
-  totalCount = signal<number>(0);
-  pageSize = signal<number>(10);
-  pageIndex = signal<number>(1);
-
+  private shopService = inject(ShopService);
 
   ngOnInit() {
-    this.getAllProducts();
+    this.getData();
   }
 
-  getAllProducts() {
-    return this.adminService.getProducts(this.pageIndex(), this.pageSize()).subscribe({
-      next: (data: any) => {
-        this.products.set(data.data);
-        this.pageIndex.set(data.pageIndex);
-        this.pageSize.set(data.pageSize);
-        this.totalCount.set(data.totalCount);
-        console.log(data.data);
-
-      },
-      error: err => console.log(err)
-    });
+  override getData(): void {
+    this.shopService.getProducts(this.shopParams).subscribe({
+      next: res => {
+        this.data.set(res.data);
+        this.shopParams.pageIndex = res.pageIndex;
+        this.shopParams.pageSize = res.pageSize;
+        this.totalCount.set(res.totalCount);
+      }
+    })
   }
+
+
 
   deleteProduct(productId: number) {
     Swal.fire({
@@ -55,10 +52,10 @@ export class AdminProductComponent implements OnInit {
       if (result.isConfirmed) {
         this.adminService.deleteProduct(productId).subscribe({
           next: () => {
-            this.products.update(current => current.filter(p => p.id !== productId));
+            this.data.update(current => current.filter(p => p.id !== productId));
             Swal.fire('Deleted!', 'Product has been deleted.', 'success');
-            if (this.products().length === 0 && this.pageIndex() > 1)
-              this.changePage(this.pageIndex() - 1);
+            if (this.data().length === 0 && this.shopParams.pageIndex > 1)
+              this.changePage(this.shopParams.pageIndex - 1);
           },
           error: (err) => {
             console.error(err);
@@ -71,15 +68,15 @@ export class AdminProductComponent implements OnInit {
 
 
   changePage(newPage: number) {
-    if (newPage < 1 || newPage > Math.ceil(this.totalCount() / this.pageSize())) return;
+    if (newPage < 1 || newPage > Math.ceil(this.totalCount() / this.shopParams.pageSize)) return;
 
-    this.pageIndex.set(newPage);
-    this.getAllProducts();
+    this.shopParams.pageIndex = newPage;
+    this.getData();
 
   }
 
   get totalPages() {
-    return Math.ceil(this.totalCount() / this.pageSize());
+    return Math.ceil(this.totalCount() / this.shopParams.pageSize);
   }
 
 }

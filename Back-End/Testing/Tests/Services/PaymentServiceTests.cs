@@ -72,7 +72,7 @@ namespace Tests.Services
             };
 
 
-            var product = new Domain.Entities.ProductModule.Product { Id = 1, Name = "Test Product", Price = 50m };
+            var product = new Product { Id = 1, Name = "Test Product", Price = 50m };
             var expectedBasketDto = Fixture.Create<BasketDto>();
 
             var mockProductRepo = MockOf<IGenericRepository<Domain.Entities.ProductModule.Product, int>>();

@@ -1,4 +1,4 @@
-import { HttpInterceptorFn, HttpRequest } from "@angular/common/http";
+import { HttpInterceptorFn } from "@angular/common/http";
 
 
 export const jwtInterceptor: HttpInterceptorFn = (req, next) => {

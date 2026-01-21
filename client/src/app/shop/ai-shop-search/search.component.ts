@@ -4,17 +4,19 @@ import { ChatMessage, ProductSearchResponse } from '../../shared/models/product-
 import { FormsModule } from '@angular/forms';
 import { CurrencyPipe, NgClass, PercentPipe } from '@angular/common';
 import { CartService } from '../../core/services/car.service';
+import { BasketService } from '../../basket/basket.service';
 
 @Component({
   selector: 'app-ai-chat',
   standalone: true,
-  imports: [FormsModule, CurrencyPipe, PercentPipe, NgClass],
+  imports: [FormsModule, CurrencyPipe, PercentPipe],
   templateUrl: './search.component.html',
   styleUrl: './search.component.scss',
 })
 export class SearchComponent {
   private searchService = inject(AiSearchService);
   private cartService = inject(CartService);
+  basketService = inject(BasketService);
   searchTerm = '';
   aiResults = signal<ProductSearchResponse[]>([]);
   hasSearched = signal(false);
@@ -111,8 +113,11 @@ export class SearchComponent {
   /* */
   cartCount = this.cartService.count;
 
-  addToCart(product: ProductSearchResponse) {
-    this.cartService.addToCart(product);
+  addToCart(product: any) {
+    // this.cartService.addToCart(product);
+    this.basketService.addItemToBasket(product);
+    console.log(product);
+    console.log('Added to basket via Child Component!'); // Debug log
   }
 
 

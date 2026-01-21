@@ -53,11 +53,12 @@ export class CheckoutComponent implements OnInit {
     this.getAddressFormValues();
   }
 
-  // Auto-fill address from API if user saved it before
+  //Auto-fill address from API if user saved it before
   getAddressFormValues() {
     this.accountService.getUserAddress().subscribe({
       next: address => {
         if (address) {
+          console.log(address);
           this.checkoutForm.get('addressForm')?.patchValue(address);
         }
       }

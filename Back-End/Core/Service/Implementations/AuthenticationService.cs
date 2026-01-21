@@ -6,7 +6,7 @@ namespace Service.Implementations
 {
     public class AuthenticationService(UserManager<Domain.Entities.IdentityModule.User> _userManager,
          IOptions<JwtOptions> _options, IMapper _mapper, IRefreshTokenServices _refreshTokenServices,
-         IUnitOfWork _unitOfWork, IRefreshTokenRepository _refreshToken, IConfiguration _configuration) : IAuthenticationService
+         IUnitOfWork _unitOfWork, IRefreshTokenRepository _refreshToken, IConfiguration _configuration, RoleManager<IdentityRole> _roleManager) : IAuthenticationService
     {
         public async Task<bool> CheckEmailExistAsync(string userEmail)
         {
@@ -82,6 +82,8 @@ namespace Service.Implementations
 
         public async Task<UserEmailConfirmRegisteration> RegisterAsync(RegisterDto registerDto)
         {
+
+            await _roleManager.CreateAsync(new IdentityRole("Customer"));
             // Create User 
             var user = new User()
             {
@@ -96,6 +98,8 @@ namespace Service.Implementations
                 var errors = result.Errors.Select(e => e.Description).ToList();
                 throw new ValidationException(errors);
             }
+
+            await _userManager.AddToRoleAsync(user, "Customer");
 
             var emailToken = await _userManager.GenerateEmailConfirmationTokenAsync(user);
             var encodedToken = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(emailToken));

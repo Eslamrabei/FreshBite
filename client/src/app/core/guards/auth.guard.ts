@@ -12,8 +12,11 @@ export const authGuard: CanActivateFn = (route: ActivatedRouteSnapshot, state: R
 
   return accountService.currentUser$.pipe(
     map(auth => {
-      if (auth)
-        return true;
+      if (auth && auth.accessToken) {
+        if (accountService.isAdmin(auth.accessToken)) {
+          return true;
+        }
+      }
       router.navigate(['authentication/login'], { queryParams: { returnUrl: state.url } });
       return false;
     })

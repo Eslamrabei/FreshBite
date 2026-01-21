@@ -15,10 +15,10 @@ namespace Presentation.Controllers
 
         //    var vector = await _embeddingService.GetEmbeddingAsync(textToEmbed);
 
-        //    await _vectorService.UpsertProductAsync(product.Id, vector, product);
+        //    await _vectorService.UpsertProductAsync( vector, product);
 
         //    return Ok(new { Message = "Product Indexed Successfully", VectorSize = vector.Length });
-        //} 
+        //}
         #endregion
 
         [HttpGet("query")]

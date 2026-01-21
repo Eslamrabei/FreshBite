@@ -77,11 +77,19 @@ namespace E_CommerceApi.Extensions
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtOptions.SecretKey))
                 };
             });
-            services.AddAuthorization();
+            services.AddAuthorization(configur =>
+            {
+
+                configur.AddPolicy("SuperAdminPolicy",
+                    policy => policy.RequireRole("SuperAdmin"));
+
+            });
 
             return services;
 
         }
+
+
 
 
     }

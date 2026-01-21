@@ -4,6 +4,7 @@ export interface ProductSearchResponse {
   description: string;
   price: number;
   score: number;
+  pictureUrl: string;
 }
 
 

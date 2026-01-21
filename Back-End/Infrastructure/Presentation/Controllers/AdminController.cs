@@ -1,10 +1,12 @@
 ﻿using FluentValidation;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using Shared.Dtos.AiSearch;
 
 namespace Presentation.Controllers
 {
+    [Authorize(Policy = "SuperAdminPolicy")]
     public class AdminController(IVectorService _vectorService,
         IEmbeddingService _embeddingService, IServiceManager _service, IValidator<CreatedProductDto> _validator,
         ILogger<AdminController> _logger) : ApiController

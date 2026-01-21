@@ -19,10 +19,10 @@ export class CheckoutDeliveryComponent implements OnInit {
 
   // Mock Data
   deliveryMethods = [
-    { id: 1, shortName: 'UPS1', deliveryTime: '1-2 Days', description: 'Fastest delivery time', price: 10 },
-    { id: 2, shortName: 'UPS2', deliveryTime: '2-5 Days', description: 'Get it within 5 days', price: 5 },
-    { id: 3, shortName: 'UPS3', deliveryTime: '5-10 Days', description: 'Slower but cheap', price: 2 },
-    { id: 4, shortName: 'FREE', deliveryTime: '1-2 Weeks', description: 'Free! You get what you pay for', price: 0 },
+    { id: 3, shortName: 'UPS1', deliveryTime: '1-2 Days', description: 'Fastest delivery time', price: 10 },
+    { id: 4, shortName: 'UPS2', deliveryTime: '2-5 Days', description: 'Get it within 5 days', price: 5 },
+    { id: 5, shortName: 'UPS3', deliveryTime: '5-10 Days', description: 'Slower but cheap', price: 2 },
+    { id: 6, shortName: 'FREE', deliveryTime: '1-2 Weeks', description: 'Free! You get what you pay for', price: 0 },
   ];
 
   ngOnInit(): void {
