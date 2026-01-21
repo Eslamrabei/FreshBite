@@ -11,7 +11,7 @@ namespace E_CommerceApi
             var builder = WebApplication.CreateBuilder(args);
             builder.Services.EnsureValidations();
             //Core
-            builder.Services.AddCoreService(builder.Configuration);
+            builder.Services.AddCoreService();
             // Inrastructure
             builder.Services.AddInfrastrucureService(builder.Configuration);
             //WebApi

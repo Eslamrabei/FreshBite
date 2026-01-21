@@ -2,7 +2,7 @@
 {
     public static class CoreServicesExtensions
     {
-        public static IServiceCollection AddCoreService(this IServiceCollection services, IConfiguration _configuration)
+        public static IServiceCollection AddCoreService(this IServiceCollection services)
         {
             services.AddScoped<IServiceManager, ServiceManagerWithDelegateFactory>();
 
@@ -13,13 +13,13 @@
                 options.InvalidModelStateResponseFactory = ApiResponseFactory.CustomeValidationApiResponse;
             });
 
+            services.AddSingleton<ICacheService, CacheService>();
             services.AddScoped<Stripe.PaymentIntentService>();
             services.AddScoped<IPaymentService, PaymentService>();
             services.AddScoped<IProductService, ProductService>();
             services.AddScoped<IBasketService, BasketService>();
             services.AddScoped<IAuthenticationService, AuthenticationService>();
             services.AddScoped<IOrderService, OrderService>();
-            services.AddScoped<ICacheService, CacheService>();
             services.AddScoped<IRefreshTokenServices, RefreshTokenServices>();
             services.AddScoped<IFileService, FileService>();
 

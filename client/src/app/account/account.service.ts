@@ -1,10 +1,15 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Router } from '@angular/router';
+import { jwtDecode, JwtPayload, JwtDecodeOptions } from 'jwt-decode';
+
+
+
 import { environment } from '../../environments/environment';
 import { catchError, map, of, ReplaySubject } from 'rxjs';
 import { Address, User } from '../shared/models/user';
 import { BasketService } from '../basket/basket.service';
+import { stringify } from 'uuid';
 
 @Injectable({
   providedIn: 'root',
@@ -28,6 +33,7 @@ export class AccountService {
       map(user => {
         if (user) {
           localStorage.setItem('token', user.accessToken);
+
           this.currentUserSource.next(user);
           return user;
         }
@@ -44,7 +50,7 @@ export class AccountService {
   }
 
   getUserAddress() {
-    return this.http.get<Address>(this.baseUrl + 'Authentication/address');
+    return this.http.get<Address>(this.baseUrl + 'Authentication/Address');
   }
 
   login(values: any) {
@@ -52,6 +58,10 @@ export class AccountService {
       map(user => {
         if (user) {
           localStorage.setItem('token', user.accessToken);
+          let role = this.getRoleFromToken(user.accessToken);
+          // adding role to a user
+          role = user.role;
+          console.log(role);
           this.currentUserSource.next(user);
         }
         return user;
@@ -79,6 +89,23 @@ export class AccountService {
     this.basketService.clearLocalBasket();
     this.currentUserSource.next(null);
     this.router.navigateByUrl('/');
+  }
+
+  getRoleFromToken(token: string): string | string[] {
+    if (!token) return [];
+    const decode: any = jwtDecode(token);
+    const role = decode['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'];
+    return role;
+  }
+
+
+  isAdmin(token: string): boolean {
+    const roles = this.getRoleFromToken(token);
+
+    if (Array.isArray(roles)) {
+      return roles.includes('Admin') || roles.includes('SuperAdmin');
+    }
+    return roles === 'Admin' || roles === 'SuperAdmin';
   }
 
 

@@ -11,17 +11,15 @@ import { RouterLink } from '@angular/router';
   styleUrls: ['./checkout-address.component.scss']
 })
 export class CheckoutAddressComponent {
-  @Input() checkoutForm?: FormGroup; // <--- Received from Parent
+  @Input() checkoutForm?: FormGroup;
   @Output() next = new EventEmitter<void>();
 
-  // This getter lets your HTML stay exactly the same!
   get addressForm() {
     return this.checkoutForm?.get('addressForm') as FormGroup;
   }
 
   saveAddress() {
     if (this.addressForm?.valid) {
-      // You can save to API here if you want persistent address updates
       this.next.emit();
     } else {
       this.addressForm?.markAllAsTouched();

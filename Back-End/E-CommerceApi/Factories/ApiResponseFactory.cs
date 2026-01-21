@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Shared.ErrorModels;
+﻿using Shared.ErrorModels;
 
 namespace E_CommerceApi.Factories
 {
@@ -8,7 +7,8 @@ namespace E_CommerceApi.Factories
 
         public static IActionResult CustomeValidationApiResponse(ActionContext context)
         {
-            var errors = context.ModelState.Where(error => error.Value?.Errors.Any() == true)
+            var errors = context
+                .ModelState.Where(error => error.Value?.Errors.Any() == true)
                 .Select(err => new ValidationError()
                 {
                     Field = err.Key,

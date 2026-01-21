@@ -16,7 +16,6 @@ export class BasketComponent {
 
   private basketService = inject(BasketService);
 
-
   basket = toSignal(this.basketService.basket$);
   totals = toSignal(this.basketService.basketTotal$);
 

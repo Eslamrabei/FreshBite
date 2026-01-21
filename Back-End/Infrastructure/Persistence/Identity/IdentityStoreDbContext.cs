@@ -11,7 +11,7 @@ namespace Persistence.Identity
             builder.Entity<Address>().ToTable("Addresses");
         }
 
-        public DbSet<RefreshToken> RefreshTokens { get; set; }
+        public virtual DbSet<RefreshToken> RefreshTokens { get; set; }
 
     }
 }
